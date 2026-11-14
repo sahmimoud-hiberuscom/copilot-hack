@@ -348,3 +348,43 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# ---------------------------------------------------------------
+# S.Y.N.A.P.S.E. / PULSAR (frontend/ keeps its own .gitignore)
+# ---------------------------------------------------------------
+
+# Secrets and local env. .devcontainer/.env stays tracked: it only holds template defaults.
+.env
+.env.*
+!.env.example
+
+# Python: backend/ and data/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+
+# Datasets and raw footage: too big (RLDD is 111 GB) and faces are personal data
+data/raw/
+data/**/*.mp4
+data/**/*.avi
+data/**/*.mov
+*.duckdb
+chroma/
+
+# LLM weights pulled by Ollama or by hand
+*.gguf
+
+# Next.js output, in case it is ever run outside frontend/
+.next/
+out/
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+
+# Claude Code per-user settings (.claude/launch.json is shared)
+.claude/settings.local.json
