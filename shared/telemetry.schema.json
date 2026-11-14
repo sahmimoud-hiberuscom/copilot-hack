@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "S.Y.N.A.P.S.E. telemetry contract",
+  "type": "object",
+  "required": ["schemaVersion", "timestamp", "biometrics", "selfReport", "environment", "decision", "voice"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "timestamp": { "type": "integer" },
+    "biometrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["heartRateBpm", "heartRateConfidence", "fatigueScore", "perclos", "yawnsPerMin", "postureStability", "armAsymmetry", "lastPvtMeanMs", "lastPvtLapses"],
+      "properties": {
+        "heartRateBpm": { "type": ["number", "null"] },
+        "heartRateConfidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "fatigueScore": { "type": "number", "minimum": 0, "maximum": 1 },
+        "perclos": { "type": "number", "minimum": 0, "maximum": 1 },
+        "yawnsPerMin": { "type": "number", "minimum": 0 },
+        "postureStability": { "type": "number", "minimum": 0, "maximum": 1 },
+        "armAsymmetry": { "type": "number", "minimum": 0, "maximum": 1 },
+        "lastPvtMeanMs": { "type": ["number", "null"] },
+        "lastPvtLapses": { "type": ["integer", "null"] }
+      }
+    },
+    "selfReport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sleepHoursLast24h", "mood", "bloodPressure", "glucoseMgDl", "bodyTempC"],
+      "properties": {
+        "sleepHoursLast24h": { "type": ["number", "null"], "minimum": 0, "maximum": 24 },
+        "mood": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+        "bloodPressure": { "type": ["string", "null"] },
+        "glucoseMgDl": { "type": ["number", "null"] },
+        "bodyTempC": { "type": ["number", "null"] }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["radiation_mSv", "cabinCo2_mmHg", "gravityMode", "activeHazards"],
+      "properties": {
+        "radiation_mSv": { "type": "number", "minimum": 0 },
+        "cabinCo2_mmHg": { "type": "number", "minimum": 0 },
+        "gravityMode": { "enum": ["MICROGRAVITY", "MOON_016G", "MARS_038G"] },
+        "activeHazards": {
+          "type": "array",
+          "items": { "enum": ["RADIATION", "ISOLATION", "DISTANCE", "GRAVITY", "ENVIRONMENT"] }
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "escalation", "affectedSystems", "hrpRisk", "factors", "countermeasureId"],
+      "properties": {
+        "status": { "enum": ["GREEN", "AMBER", "RED"] },
+        "escalation": { "enum": ["SELF_CARE", "CREW", "FLIGHT_SURGEON"] },
+        "affectedSystems": { "type": "array", "items": { "type": "string" } },
+        "hrpRisk": { "type": ["string", "null"] },
+        "factors": { "type": "array", "items": { "type": "string" } },
+        "countermeasureId": { "type": ["string", "null"] }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["handsFreeMode", "isListening", "transcript", "responseText", "audioUrl"],
+      "properties": {
+        "handsFreeMode": { "type": "boolean" },
+        "isListening": { "type": "boolean" },
+        "transcript": { "type": "string" },
+        "responseText": { "type": "string" },
+        "audioUrl": { "type": "string" }
+      }
+    }
+  }
+}
